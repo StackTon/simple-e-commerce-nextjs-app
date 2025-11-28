@@ -44,7 +44,6 @@ export default defineConfig([
       '**/*.d.ts',
       'eslint.config.mjs',
       '**/*.config.mjs',
-      'playwrite-ui'
     ],
   },
   prettier,
