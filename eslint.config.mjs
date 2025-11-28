@@ -1,18 +1,52 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import { defineConfig } from 'eslint/config'
+import tseslint from 'typescript-eslint'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTs from 'eslint-config-next/typescript'
+import prettier from 'eslint-config-prettier/flat'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
-const eslintConfig = defineConfig([
+export default defineConfig([
+  ...tseslint.configs.strictTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+    rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-props-no-spreading': 'off',
+      'import/no-extraneous-dependencies': [
+        'error',
+        {
+          devDependencies: [
+            '**/*.config.*',
+            '**/scripts/**',
+            'eslint.config.*',
+            'postcss.config.*',
+            'tailwind.config.*',
+            'vitest.config.*',
+          ],
+        },
+      ],
+    },
+  },
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
-
-export default eslintConfig;
+  {
+    ignores: [
+      '.next/**',
+      'out/**',
+      'build/**',
+      'next-env.d.ts',
+      '**/*.d.ts',
+      'eslint.config.mjs',
+      '**/*.config.mjs',
+      'playwrite-ui'
+    ],
+  },
+  prettier,
+  eslintPluginPrettierRecommended,
+])
