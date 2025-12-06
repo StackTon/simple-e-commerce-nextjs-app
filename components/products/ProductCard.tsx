@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Product } from '@/types'
-import { AddToCartButton } from './AddToCartButton'
 import { formatPrice, calculateDiscountedPrice } from '@/lib/utils/cart'
 
 interface ProductCardProps {
@@ -61,6 +60,14 @@ export function ProductCard({ product }: ProductCardProps) {
               ? `${product.stock.toString()} in stock`
               : 'Out of stock'}
           </span>
+          {product.minimumOrderQuantity > 1 && (
+            <>
+              <span className="text-gray-300">•</span>
+              <span className="text-sm text-gray-500">
+                Min: {product.minimumOrderQuantity}
+              </span>
+            </>
+          )}
         </div>
 
         <div className="mt-3">
@@ -77,7 +84,12 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="mt-4">
-          <AddToCartButton product={product} />
+          <Link
+            href={`/products/${product.id.toString()}`}
+            className="block w-full rounded-lg bg-blue-600 px-4 py-2 text-center font-semibold text-white transition-colors hover:bg-blue-700"
+          >
+            View Details
+          </Link>
         </div>
       </div>
     </div>

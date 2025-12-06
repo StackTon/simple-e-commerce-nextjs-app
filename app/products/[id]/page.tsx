@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { fetchProduct } from '@/lib/api/products'
 import { Header } from '@/components/layout/Header'
-import { AddToCartButton } from '@/components/products/AddToCartButton'
+import { ProductDetailActions } from '@/components/products/ProductDetailActions'
 import { formatPrice, calculateDiscountedPrice } from '@/lib/utils/cart'
 
 interface ProductPageProps {
@@ -147,10 +147,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
               )}
             </div>
 
-            {/* Add to Cart */}
-            <div className="mb-8">
-              <AddToCartButton product={product} className="py-3 text-lg" />
-            </div>
+            {/* Quantity and Add to Cart */}
+            <ProductDetailActions product={product} />
 
             {/* Description */}
             <div className="mb-6 border-t border-gray-200 pt-6">

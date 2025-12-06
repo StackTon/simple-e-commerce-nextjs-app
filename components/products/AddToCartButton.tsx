@@ -5,11 +5,13 @@ import type { Product } from '@/types'
 
 interface AddToCartButtonProps {
   product: Product
+  quantity: number
   className?: string
 }
 
 export function AddToCartButton({
   product,
+  quantity,
   className = '',
 }: AddToCartButtonProps) {
   const { addToCart, isInCart } = useCart()
@@ -17,7 +19,7 @@ export function AddToCartButton({
 
   const handleAddToCart = () => {
     if (!outOfStock) {
-      addToCart(product)
+      addToCart(product, quantity)
     }
   }
 
