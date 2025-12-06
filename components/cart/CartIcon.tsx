@@ -26,9 +26,9 @@ export function CartIcon() {
         />
       </svg>
       <span className="font-medium">Cart</span>
-      {isInitialized && cart.totalItems > 0 && (
+      {isInitialized && cart.items.length > 0 && (
         <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-          {cart.totalItems}
+          {cart.items.length}
         </span>
       )}
     </Link>
