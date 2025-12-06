@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useCallback,
+  useMemo,
   type ReactNode,
 } from 'react'
 import {
@@ -40,9 +41,21 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   const showToast = useCallback(
     (message: string, type: ToastType = 'info', duration = 3000) => {
-      const id = generateToastId()
-      const toast: Toast = { id, message, type, duration }
-      setToasts((prev) => [...prev, toast])
+      // Prevent duplicate toasts with the same message and type
+      setToasts((prev) => {
+        const isDuplicate = prev.some(
+          (existingToast) =>
+            existingToast.message === message && existingToast.type === type,
+        )
+
+        if (isDuplicate) {
+          return prev
+        }
+
+        const id = generateToastId()
+        const toast: Toast = { id, message, type, duration }
+        return [...prev, toast]
+      })
     },
     [],
   )
@@ -75,13 +88,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     [showToast],
   )
 
-  const value: ToastContextType = {
-    showToast,
-    success,
-    error,
-    info,
-    warning,
-  }
+  const value: ToastContextType = useMemo(
+    () => ({
+      showToast,
+      success,
+      error,
+      info,
+      warning,
+    }),
+    [showToast, success, error, info, warning],
+  )
 
   return (
     <ToastContext.Provider value={value}>

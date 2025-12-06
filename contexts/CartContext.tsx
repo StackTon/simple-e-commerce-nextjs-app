@@ -93,6 +93,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return
       }
 
+      const resultRef = { success: false, error: '' }
+
       setCart((prevCart) => {
         const existingItemIndex = prevCart.items.findIndex(
           (item) => item.product.id === product.id,
@@ -108,9 +110,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
           // Validate against stock
           if (newQuantity > product.stock) {
-            toast.error(
-              `Cannot add more. Only ${product.stock.toString()} in stock (${existingItem.quantity.toString()} already in cart)`,
-            )
+            resultRef.error = `Cannot add more. Only ${product.stock.toString()} in stock (${existingItem.quantity.toString()} already in cart)`
             return prevCart
           }
 
@@ -123,17 +123,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
           // Add new item
           // Validate against stock
           if (quantity > product.stock) {
-            toast.error(
-              `Cannot add ${quantity.toString()}. Only ${product.stock.toString()} in stock`,
-            )
+            resultRef.error = `Cannot add ${quantity.toString()}. Only ${product.stock.toString()} in stock`
             return prevCart
           }
 
           newItems = [...prevCart.items, { product, quantity }]
         }
 
-        toast.success(`Added ${product.title} to cart`)
+        resultRef.success = true
         return recalculateCart(newItems)
+      })
+
+      // Show toast notifications after state update
+      queueMicrotask(() => {
+        if (resultRef.error) {
+          toast.error(resultRef.error)
+        } else if (resultRef.success) {
+          toast.success(`Added ${product.title} to cart`)
+        }
       })
     },
     [recalculateCart, toast],
@@ -141,6 +148,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const removeFromCart = useCallback(
     (productId: number) => {
+      const resultRef = { title: '' }
+
       setCart((prevCart) => {
         const item = prevCart.items.find(
           (item) => item.product.id === productId,
@@ -150,10 +159,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
         )
 
         if (item) {
-          toast.info(`Removed ${item.product.title} from cart`)
+          resultRef.title = item.product.title
         }
 
         return recalculateCart(newItems)
+      })
+
+      queueMicrotask(() => {
+        if (resultRef.title) {
+          toast.info(`Removed ${resultRef.title} from cart`)
+        }
       })
     },
     [recalculateCart, toast],
@@ -166,6 +181,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return
       }
 
+      const resultRef = { warning: '', error: '' }
+
       setCart((prevCart) => {
         const item = prevCart.items.find(
           (item) => item.product.id === productId,
@@ -177,17 +194,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
         // Validate minimum order quantity
         if (quantity < item.product.minimumOrderQuantity) {
-          toast.warning(
-            `Minimum order quantity for ${item.product.title} is ${item.product.minimumOrderQuantity.toString()}`,
-          )
+          resultRef.warning = `Minimum order quantity for ${item.product.title} is ${item.product.minimumOrderQuantity.toString()}`
           return prevCart
         }
 
         // Validate against stock
         if (quantity > item.product.stock) {
-          toast.error(
-            `Cannot set quantity to ${quantity.toString()}. Only ${item.product.stock.toString()} in stock`,
-          )
+          resultRef.error = `Cannot set quantity to ${quantity.toString()}. Only ${item.product.stock.toString()} in stock`
           return prevCart
         }
 
@@ -198,13 +211,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
         )
         return recalculateCart(newItems)
       })
+
+      // Show toast notifications after state update
+      queueMicrotask(() => {
+        if (resultRef.warning) {
+          toast.warning(resultRef.warning)
+        } else if (resultRef.error) {
+          toast.error(resultRef.error)
+        }
+      })
     },
     [recalculateCart, removeFromCart, toast],
   )
 
   const clearCart = useCallback(() => {
     setCart(initialCart)
-    toast.info('Cart cleared')
+    queueMicrotask(() => {
+      toast.info('Cart cleared')
+    })
   }, [toast])
 
   const isInCart = useCallback(
