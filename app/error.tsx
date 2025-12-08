@@ -1,19 +1,13 @@
 'use client'
 
-import { useEffect } from 'react'
 import { Header } from '@/components/layout/Header'
 
 export default function Error({
-  error,
   reset,
 }: {
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  useEffect(() => {
-    console.error('Application error:', error)
-  }, [error])
-
   return (
     <>
       <Header />
@@ -25,7 +19,7 @@ export default function Error({
               Something went wrong
             </h2>
             <p className="mb-4 text-red-700">
-              {error.message || 'An unexpected error occurred'}
+              An unexpected error occurred. Please try again later.
             </p>
             <button
               onClick={() => {
