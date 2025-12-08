@@ -35,23 +35,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const toast = useToast()
 
   useEffect(() => {
-    const stored = getFromStorage(STORAGE_KEYS.CART)
-    if (stored && Array.isArray(stored)) {
-      const storedItems = stored as CartItem[]
-      const subtotal = calculateSubtotal(storedItems)
-      const discount = calculateDiscount(storedItems)
-      const total = calculateTotal(storedItems)
-      const totalItems = calculateTotalItems(storedItems)
+    queueMicrotask(() => {
+      const stored = getFromStorage(STORAGE_KEYS.CART)
+      if (stored && Array.isArray(stored)) {
+        const storedItems = stored as CartItem[]
+        const subtotal = calculateSubtotal(storedItems)
+        const discount = calculateDiscount(storedItems)
+        const total = calculateTotal(storedItems)
+        const totalItems = calculateTotalItems(storedItems)
 
-      setCart({
-        items: storedItems,
-        totalItems,
-        subtotal,
-        discount,
-        total,
-      })
-    }
-    setIsHydrated(true)
+        setCart({
+          items: storedItems,
+          totalItems,
+          subtotal,
+          discount,
+          total,
+        })
+      }
+      setIsHydrated(true)
+    })
   }, [])
 
   useEffect(() => {
