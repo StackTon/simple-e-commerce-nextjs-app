@@ -76,7 +76,6 @@ export default function CartPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* Cart Items */}
           <div className="lg:col-span-2">
             <div className="space-y-4">
               {cart.items.map((item) => (
@@ -99,7 +98,6 @@ export default function CartPage() {
             </div>
           </div>
 
-          {/* Cart Summary */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
               <CartSummary cart={cart} />

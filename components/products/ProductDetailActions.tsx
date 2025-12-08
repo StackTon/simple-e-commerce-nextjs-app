@@ -14,7 +14,6 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
 
   return (
     <div className="mb-8">
-      {/* Quantity Selector */}
       <div className="mb-4">
         <label
           htmlFor="quantity"
@@ -34,7 +33,6 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
         />
       </div>
 
-      {/* Add to Cart Button */}
       <AddToCartButton
         product={product}
         quantity={quantity}

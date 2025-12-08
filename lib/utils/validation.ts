@@ -28,7 +28,6 @@ export function validateProduct(data: unknown): Product {
     throw new ValidationError('Product must be an object')
   }
 
-  // Required fields validation
   if (!isNumber(data.id) || data.id <= 0) {
     throw new ValidationError('Product.id must be a positive number')
   }
@@ -105,7 +104,6 @@ export function validateProduct(data: unknown): Product {
     throw new ValidationError('Product.reviews must be an array')
   }
 
-  // Validate reviews array
   for (const review of data.reviews) {
     if (!isObject(review)) {
       throw new ValidationError('Product.reviews items must be objects')
@@ -160,7 +158,6 @@ export function validateProduct(data: unknown): Product {
     throw new ValidationError('Product.images must be an array of strings')
   }
 
-  // Optional brand field
   if (data.brand !== undefined && !isString(data.brand)) {
     throw new ValidationError('Product.brand must be a string if provided')
   }
@@ -177,7 +174,6 @@ export function validateProductsResponse(data: unknown): ProductsResponse {
     throw new ValidationError('ProductsResponse.products must be an array')
   }
 
-  // Validate each product
   const validatedProducts = data.products.map((product, index) => {
     try {
       return validateProduct(product)
@@ -219,12 +215,10 @@ export function validateCategories(data: unknown): string[] {
     throw new ValidationError('Categories must be an array')
   }
 
-  // Handle both string[] and object[] responses
   if (data.length === 0) {
     return []
   }
 
-  // Check if it's an array of objects with slug property
   if (isObject(data[0]) && 'slug' in data[0]) {
     const categories: string[] = []
     for (const item of data) {
@@ -238,7 +232,6 @@ export function validateCategories(data: unknown): string[] {
     return categories
   }
 
-  // Check if it's an array of strings
   if (!data.every(isString)) {
     throw new ValidationError('Categories must be an array of strings')
   }

@@ -41,7 +41,6 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   const showToast = useCallback(
     (message: string, type: ToastType = 'info', duration = 3000) => {
-      // Prevent duplicate toasts with the same message and type
       setToasts((prev) => {
         const isDuplicate = prev.some(
           (existingToast) =>

@@ -40,7 +40,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <>
       <Header />
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
         <div className="mb-6">
           <Link
             href="/"
@@ -51,7 +50,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          {/* Images */}
           <div>
             <div className="relative mb-4 aspect-square overflow-hidden rounded-lg bg-gray-100">
               <Image
@@ -69,7 +67,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               )}
             </div>
 
-            {/* Thumbnails */}
             {product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
                 {product.images.slice(0, 4).map((image, index) => (
@@ -90,7 +87,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
             )}
           </div>
 
-          {/* Product Info */}
           <div>
             {product.brand && (
               <p className="mb-2 text-sm font-medium tracking-wide text-gray-600 uppercase">
@@ -102,7 +98,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {product.title}
             </h1>
 
-            {/* Rating and Reviews */}
             <div className="mb-4 flex items-center gap-4">
               <div className="flex items-center gap-1">
                 <span className="text-xl text-yellow-400">★</span>
@@ -116,7 +111,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </span>
             </div>
 
-            {/* Price */}
             <div className="mb-6">
               <div className="flex items-baseline gap-3">
                 <span className="text-4xl font-bold text-gray-900">
@@ -136,7 +130,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               )}
             </div>
 
-            {/* Stock Status */}
             <div className="mb-6">
               {product.stock > 0 ? (
                 <p className="font-medium text-green-600">
@@ -147,10 +140,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
               )}
             </div>
 
-            {/* Quantity and Add to Cart */}
             <ProductDetailActions product={product} />
 
-            {/* Description */}
             <div className="mb-6 border-t border-gray-200 pt-6">
               <h2 className="mb-2 text-lg font-semibold text-gray-900">
                 Description
@@ -160,7 +151,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </p>
             </div>
 
-            {/* Product Details */}
             <div className="border-t border-gray-200 pt-6">
               <h2 className="mb-4 text-lg font-semibold text-gray-900">
                 Product Details
@@ -203,7 +193,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </dl>
             </div>
 
-            {/* Reviews */}
             {product.reviews.length > 0 && (
               <div className="mt-6 border-t border-gray-200 pt-6">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900">

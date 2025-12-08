@@ -30,13 +30,10 @@ const initialCart: Cart = {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  // Always initialize with empty cart to avoid hydration mismatch
   const [cart, setCart] = useState<Cart>(initialCart)
   const [isHydrated, setIsHydrated] = useState(false)
   const toast = useToast()
 
-  // Load cart from localStorage after hydration
-  // This is necessary for SSR/CSR hydration handling in Next.js
   useEffect(() => {
     const stored = getFromStorage(STORAGE_KEYS.CART)
     if (stored && Array.isArray(stored)) {
@@ -46,7 +43,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const total = calculateTotal(storedItems)
       const totalItems = calculateTotalItems(storedItems)
 
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCart({
         items: storedItems,
         totalItems,
@@ -58,7 +54,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setIsHydrated(true)
   }, [])
 
-  // Save cart to localStorage on every cart change (after hydration)
   useEffect(() => {
     if (isHydrated) {
       const success = saveToStorage(STORAGE_KEYS.CART, cart.items)
@@ -85,7 +80,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addToCart = useCallback(
     (product: Product, quantity = 1) => {
-      // Validate minimum order quantity
       if (quantity < product.minimumOrderQuantity) {
         toast.warning(
           `Minimum order quantity for ${product.title} is ${product.minimumOrderQuantity.toString()}`,
@@ -104,11 +98,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         let newQuantity: number
 
         if (existingItemIndex > -1) {
-          // Update quantity of existing item
           const existingItem = prevCart.items[existingItemIndex]
           newQuantity = existingItem.quantity + quantity
 
-          // Validate against stock
           if (newQuantity > product.stock) {
             resultRef.error = `Cannot add more. Only ${product.stock.toString()} in stock (${existingItem.quantity.toString()} already in cart)`
             return prevCart
@@ -120,8 +112,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
               : item,
           )
         } else {
-          // Add new item
-          // Validate against stock
           if (quantity > product.stock) {
             resultRef.error = `Cannot add ${quantity.toString()}. Only ${product.stock.toString()} in stock`
             return prevCart
@@ -134,7 +124,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return recalculateCart(newItems)
       })
 
-      // Show toast notifications after state update
       queueMicrotask(() => {
         if (resultRef.error) {
           toast.error(resultRef.error)
@@ -192,13 +181,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
           return prevCart
         }
 
-        // Validate minimum order quantity
         if (quantity < item.product.minimumOrderQuantity) {
           resultRef.warning = `Minimum order quantity for ${item.product.title} is ${item.product.minimumOrderQuantity.toString()}`
           return prevCart
         }
 
-        // Validate against stock
         if (quantity > item.product.stock) {
           resultRef.error = `Cannot set quantity to ${quantity.toString()}. Only ${item.product.stock.toString()} in stock`
           return prevCart
@@ -212,7 +199,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return recalculateCart(newItems)
       })
 
-      // Show toast notifications after state update
       queueMicrotask(() => {
         if (resultRef.warning) {
           toast.warning(resultRef.warning)
