@@ -6,7 +6,7 @@ interface ProductGridProps {
 }
 
 export function ProductGrid({ products }: ProductGridProps) {
-  if (products.length === 0) {
+  if (!products.length) {
     return (
       <div className="py-12 text-center">
         <p className="text-lg text-gray-500">No products found</p>

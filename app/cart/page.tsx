@@ -20,7 +20,7 @@ export default function CartPage() {
     )
   }
 
-  if (cart.items.length === 0) {
+  if (!cart.items.length) {
     return (
       <>
         <Header />

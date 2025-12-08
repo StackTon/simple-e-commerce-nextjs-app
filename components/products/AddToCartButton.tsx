@@ -15,7 +15,7 @@ export function AddToCartButton({
   className = '',
 }: AddToCartButtonProps) {
   const { addToCart, isInCart } = useCart()
-  const outOfStock = product.stock === 0
+  const outOfStock = !product.stock
 
   const handleAddToCart = () => {
     if (!outOfStock) {

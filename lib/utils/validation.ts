@@ -215,7 +215,7 @@ export function validateCategories(data: unknown): string[] {
     throw new ValidationError('Categories must be an array')
   }
 
-  if (data.length === 0) {
+  if (!data.length) {
     return []
   }
 
