@@ -247,12 +247,12 @@ export function validateCategories(data: unknown): string[] {
 }
 
 export function sanitizeSearchInput(input: string): string {
-  // Remove potentially dangerous characters
   return input
     .trim()
-    .replace(/[<>]/g, '') // Remove angle brackets to prevent XSS
-    .replace(/[{}]/g, '') // Remove curly braces
-    .slice(0, 100) // Limit length to prevent abuse
+    .replace(/[<>'"{}]/g, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+=/gi, '')
+    .slice(0, 100)
 }
 
 export function sanitizeNumericInput(
