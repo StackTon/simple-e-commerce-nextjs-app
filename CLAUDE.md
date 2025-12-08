@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a fully-featured Next.js 16 e-commerce application named "ShopHub" using the App Router, React 19, TypeScript, and Tailwind CSS v4. The application includes product listing, search, filtering, shopping cart with persistence, and a comprehensive component architecture.
+This is a fully-featured Next.js 16 e-commerce application named "ShopHub" using the App Router, React 19, TypeScript, and Tailwind CSS v4. The application includes product listing, search, shopping cart with persistence, and a comprehensive component architecture.
 
 ## Key Features
 
-- **Product Management**: Product listing with pagination, search (debounced), and category filtering
+- **Product Management**: Product listing with pagination and search (debounced)
 - **Shopping Cart**: Full cart system with add/remove/update functionality and localStorage persistence
 - **Product Details**: Dynamic product pages with image galleries and detailed information
 - **User Feedback**: Toast notification system for user actions
@@ -49,7 +49,7 @@ The project uses strict TypeScript and ESLint configurations:
 
 ### Framework & Routing
 
-- **Framework**: Next.js 16.0.5 with App Router
+- **Framework**: Next.js 16.0.7 with App Router
 - **React**: 19.2.0 with Server Components
 - **Routing**:
   - Home page: `/` (product listing)
@@ -84,7 +84,6 @@ components/
 ├── products/                  # Product components
 │   ├── ProductCard.tsx       # Product card for grid
 │   ├── ProductGrid.tsx       # Grid layout
-│   ├── ProductFilters.tsx    # Category filtering
 │   ├── ProductDetailActions.tsx
 │   ├── QuantitySelector.tsx
 │   └── AddToCartButton.tsx
