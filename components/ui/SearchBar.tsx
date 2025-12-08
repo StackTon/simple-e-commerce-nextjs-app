@@ -16,7 +16,6 @@ export function SearchBar() {
     if (debouncedSearchTerm) {
       params.set('search', debouncedSearchTerm)
       params.delete('page') // Reset to page 1 on search
-      params.delete('category') // Clear category when searching
     } else {
       params.delete('search')
     }
