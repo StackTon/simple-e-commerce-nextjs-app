@@ -15,8 +15,15 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'E-Commerce Store',
-  description: 'A modern e-commerce application built with Next.js',
+  title: {
+    default: 'E-Commerce Store',
+    template: '%s | E-Commerce Store',
+  },
+  description:
+    'Shop the best products at great prices. Browse our collection of electronics, fashion, home goods, and more.',
+  keywords: ['e-commerce', 'online shopping', 'products', 'deals'],
+  authors: [{ name: 'Alex' }],
+  creator: 'Alex',
 }
 
 export default function RootLayout({
