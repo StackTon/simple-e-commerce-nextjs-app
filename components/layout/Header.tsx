@@ -73,13 +73,7 @@ export function Header() {
               >
                 Home
               </Link>
-              <div
-                onClick={() => {
-                  setIsMobileMenuOpen(false)
-                }}
-              >
-                <CartIcon />
-              </div>
+              <CartIcon />
             </nav>
           </div>
         )}
